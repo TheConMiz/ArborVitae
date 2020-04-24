@@ -13,10 +13,10 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
-  - 
+  - Background
+  - Platform
+  - Sprites
+  - UI
   - 
   - 
   - 
@@ -38,12 +38,18 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Backgorund
+  - name: Background
     uniqueID: 2979546405
     locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Foreground
+  - name: Platform
     uniqueID: 2621332453
+    locked: 0
+  - name: Sprites
+    uniqueID: 3831733125
+    locked: 0
+  - name: UI
+    uniqueID: 3040292089
     locked: 0
