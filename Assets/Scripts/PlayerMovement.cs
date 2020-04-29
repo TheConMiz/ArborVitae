@@ -9,43 +9,44 @@ public class PlayerMovement : MonoBehaviour
 
     public Animator animator;
 
+    public FloatingJoystick joystick;
+
     float horMove = 0f;
 
-    public float runSpeed = 100f;
+    public float runSpeed = 160f;
 
     bool jump = false;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
     void Update()
     {
-        horMove = Input.GetAxisRaw("Horizontal") * runSpeed;
+        horMove = joystick.Horizontal * runSpeed;
 
-        animator.SetFloat("Speed", Mathf.Abs(horMove));
+        Debug.Log(joystick.Horizontal);
+
+        animator.SetFloat("Speed", Mathf.Abs(joystick.Horizontal));
 
         if (Input.GetButtonDown("Jump"))
         {
             jump = true;
 
-            animator.SetBool("Jump", true);
+            animator.SetBool("Jump", jump);
         }
     }
 
     public void OnLanding()
     {
-         animator.SetBool("Jump", false);
+        jump = false;
+
+        animator.SetBool("Jump", jump);
     }
 
     void FixedUpdate()
     {
-
         controller.Move(horMove * Time.fixedDeltaTime, false, jump);
 
         jump = false;
+
+        animator.SetBool("Jump", jump);
+
     }
 }
