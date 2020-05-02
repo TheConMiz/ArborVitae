@@ -21,8 +21,6 @@ public class PlayerMovement : MonoBehaviour
     {
         horMove = joystick.Horizontal * runSpeed;
 
-        Debug.Log(joystick.Horizontal);
-
         animator.SetFloat("Speed", Mathf.Abs(joystick.Horizontal));
 
         if (Input.GetButtonDown("Jump"))
