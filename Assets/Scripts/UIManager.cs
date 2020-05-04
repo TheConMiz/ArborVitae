@@ -8,60 +8,75 @@ public class UIManager : MonoBehaviour
 {
     public GameObject Canvas;
 
-    public GameObject GameplayUI;
-    public GameObject PauseUI;
-    public GameObject DeadUI;
+    public GameObject GameplayUI, PauseUI, DeadUI;
 
-    // private bool paused = false;
+    private Animator animator;
+
+    private PlayerManager playerManager;
+
+
 
     void Start()
     {
         PauseUI.SetActive(false);
+
         GameplayUI.SetActive(true);
+        
         DeadUI.SetActive(false);
-    }
 
-    void Update()
-    {
+        animator = GameObject.FindGameObjectWithTag("Player1").GetComponent<Animator>();
 
+        playerManager = GameObject.FindGameObjectWithTag("PlayerManager").GetComponent<PlayerManager>();
     }
 
     public void Pause()
     {
         Time.timeScale = 0;
 
-        // paused = true;
-
         PauseUI.SetActive(true);
 
         GameplayUI.SetActive(false);
+    }
 
+    public void Dead()
+    {
+        Time.timeScale = 0;
+
+        DeadUI.SetActive(true);
+
+        animator.SetBool("Dead", true);
+
+        GameplayUI.SetActive(false);
     }
 
     public void Resume()
     {
-        // paused = false;
-
         PauseUI.SetActive(false);
 
         GameplayUI.SetActive(true);
 
+        Time.timeScale = 1;
     }
 
     public void Quit()
     {
         Application.Quit();
-        Debug.Log("Quitting...");
     }
 
     public void Restart()
     {
-        Debug.Log("Restarting...");
-    }
+        animator.SetBool("Dead", false);
 
-    public void GameStart()
-    {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("MainGame");
-        // Time.timeScale = 1;
+        playerManager.isAlive = true;
+
+        PauseUI.SetActive(false);
+
+        DeadUI.SetActive(false);
+
+        GameplayUI.SetActive(true);
+
+        Time.timeScale = 1;
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
