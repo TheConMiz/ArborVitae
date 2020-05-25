@@ -16,17 +16,10 @@ public class PlayerMovement : MonoBehaviour
 
     bool jump = false;
 
-    private Vector2 firstTouch, lastTouch;
-
-    private float dragLength;
-
     void Start()
     {
-        dragLength = Screen.height * 15 / 100;
-
         animator = GameObject.FindGameObjectWithTag("Player1").GetComponent<Animator>();
     }
-
 
     void Update()
     {
@@ -36,7 +29,7 @@ public class PlayerMovement : MonoBehaviour
 
         vertMove = joystick.Vertical;
 
-        // Jump Settings
+        // Code for Jump Settings: instruct the animator to play the correct animation, and coordinate with the CharacterController.
         if ((Input.GetButtonDown("Jump") || vertMove >= .5f) && Time.time > jumpCooldown)
         {
             jump = true;
@@ -45,41 +38,11 @@ public class PlayerMovement : MonoBehaviour
 
             jumpCooldown = Time.time + 1.5f;
         }
-
-        // Touch Controls for Jumping -- Not Working
-        if (Input.touchCount == 1)
-        {
-            Touch touch = Input.GetTouch(0);
-
-            if (touch.phase == TouchPhase.Began)
-            {
-                firstTouch = touch.position;
-                lastTouch = touch.position;
-            }
-
-            else if (touch.phase == TouchPhase.Moved)
-            {
-                lastTouch = touch.position;
-            }
-
-            else if (touch.phase == TouchPhase.Ended)
-            {
-                lastTouch = touch.position;
-
-                if (Mathf.Abs(lastTouch.y - firstTouch.y) > dragLength)
-                {
-                    if (lastTouch.y > firstTouch.y)
-                    {
-                        Debug.Log("Jump");
-                    }
-                }
-            }
-        }
     }
 
     public void OnLanding()
     {
-        Debug.Log("LANDED");
+        // Checks whether the Player1 has landed after jumping to coordinate with the animator and the CharacterController.
         jump = false;
 
         animator.SetBool("Jump", jump);

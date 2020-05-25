@@ -1,21 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
 public class UIManager : MonoBehaviour
 {
-    public GameObject Canvas;
 
-    public GameObject GameplayUI, PauseUI, DeadUI;
+    public GameObject GameplayUI, PauseUI, DeadUI, VictoryUI;
 
     private Animator animator;
 
-    private PlayerManager playerManager;
+    private GameManager gameManager;
 
-
-
+    // On Start, enable the GamePlayUI and disable all other UIs. 
     void Start()
     {
         PauseUI.SetActive(false);
@@ -24,11 +20,14 @@ public class UIManager : MonoBehaviour
         
         DeadUI.SetActive(false);
 
+        VictoryUI.SetActive(false);
+
         animator = GameObject.FindGameObjectWithTag("Player1").GetComponent<Animator>();
 
-        playerManager = GameObject.FindGameObjectWithTag("PlayerManager").GetComponent<PlayerManager>();
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
     }
 
+    // On Pause, enable the PauseUI and set time scale to 0
     public void Pause()
     {
         Time.timeScale = 0;
@@ -38,17 +37,19 @@ public class UIManager : MonoBehaviour
         GameplayUI.SetActive(false);
     }
 
+    // On Player1 death, enable the DeathUI
     public void Dead()
     {
+        animator.SetBool("Dead", true);
+
         Time.timeScale = 0;
 
         DeadUI.SetActive(true);
 
-        animator.SetBool("Dead", true);
-
         GameplayUI.SetActive(false);
     }
 
+    // On Resumption, re-enable the GameplayUI.
     public void Resume()
     {
         PauseUI.SetActive(false);
@@ -63,11 +64,12 @@ public class UIManager : MonoBehaviour
         Application.Quit();
     }
 
+    // On Restart, set time scale to 1, reload the current scene, and re-enable the GamePlayUI.
     public void Restart()
     {
         animator.SetBool("Dead", false);
 
-        playerManager.isAlive = true;
+        gameManager.SetIsAlive(true);
 
         PauseUI.SetActive(false);
 
@@ -78,5 +80,15 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 1;
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    // On victory, enable the VictoryUI.
+    public void Victory()
+    {
+        Time.timeScale = 0;
+
+        VictoryUI.SetActive(true);
+
+        GameplayUI.SetActive(false);
     }
 }

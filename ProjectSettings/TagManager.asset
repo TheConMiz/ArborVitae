@@ -5,10 +5,19 @@ TagManager:
   serializedVersion: 2
   tags:
   - Player1
-  - LevelManager
-  - PlayerManager
   - UIManager
   - Ground
+  - Switch
+  - GameManager
+  - AnimalSpirit
+  - Boulder
+  - Boar
+  - Barrel
+  - Hazard
+  - Hook
+  - Fire
+  - AudioManager
+  - HookWire
   layers:
   - Default
   - TransparentFX
@@ -19,8 +28,8 @@ TagManager:
   - 
   - 
   - Ground
-  - 
-  - 
+  - Hook
+  - Player
   - 
   - 
   - 

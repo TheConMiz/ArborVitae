@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Barrel_Fall : MonoBehaviour
 {
@@ -12,9 +10,16 @@ public class Barrel_Fall : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag.Equals("Ground") && barrelRigidBody.velocity.y < -10f)
+        // If let to fall from a significant height, the Barrel will be destroyed.
+        if (collision.gameObject.tag.Equals("Ground") && barrelRigidBody.velocity.y < -20f)
         {
             Destroy(this.transform.parent.gameObject);
+        }
+
+        // If let to fall from a small height onto a Fire, the Barrel will be destroyed.
+        if (collision.gameObject.tag.Equals("Fire") && barrelRigidBody.velocity.y < -1f)
+        {
+            Destroy(this.transform.parent.gameObject, .5f);
         }
     }
 }

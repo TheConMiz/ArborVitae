@@ -1,33 +1,23 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-
+﻿using UnityEngine;
 
 public class PlayerSpawnRespawn : MonoBehaviour
 {
-    private LevelManager levelManager;
-
-    private PlayerManager playerManager;
-
+    private GameManager gameManager;
     private UIManager uiManager;
-
 
     void Start()
     {
-        levelManager = GameObject.FindGameObjectWithTag("LevelManager").GetComponent<LevelManager>();
-
-        playerManager = GameObject.FindGameObjectWithTag("PlayerManager").GetComponent<PlayerManager>();
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
 
         uiManager = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>();
 
-        transform.position = levelManager.lastCheckpoint;
+        transform.position = gameManager.GetLastCheckpoint();
     }
 
     void Update()
     {
-        // if levelmanager.isalive is false -> enable death ui. Restart does that
-        if (!playerManager.isAlive)
+        // Invoke the function responsible for killing the Player1 object when the GameManager sets its Alive status to False.
+        if (!gameManager.GetIsAlive())
         {
             uiManager.Dead();
         }
